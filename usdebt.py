@@ -1,10 +1,15 @@
 import requests
 import tkinter as tkinter
+from datetime import date, timedelta
 from tkinter import messagebox,simpledialog
 
 
 def fetch_total_debt():
-    api_url = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:2024-11-27"
+
+    todaybse =date.today() - timedelta(days=3) #i think the api only shows data from 3 days ago
+    today = todaybse.strftime("%Y-%m-%d") #format to match api_url requirements
+    #print(today)
+    api_url = "https://api.fiscaldata.treasury.gov/services/api/fiscal_service/v2/accounting/od/debt_to_penny?filter=record_date:eq:" + today
     try:
         response = requests.get(api_url)
         if response.status_code == 200:
@@ -23,7 +28,5 @@ def fetch_total_debt():
  
 fetch_total_debt()
 
-username = simpledialog.askstring("Input", "Enter your username:")
-apikey = simpledialog.askstring("Input", "Enter your API Key:")
 
-print(username + ' ' + apikey)
+#print(today)

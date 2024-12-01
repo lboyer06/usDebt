@@ -2,11 +2,12 @@
 
 import requests
 from datetime import date, timedelta
-from tkinter import Tk, Button, messagebox
+from tkinter import Tk, Button, messagebox, Label,Text
 
 
 def fetch_total_debt():
 
+    text_box.delete("1.0", "end")
     todaybse =date.today() - timedelta(days=7) #i think the api only shows data from 3 days ago
     today = todaybse.strftime("%Y-%m-%d") #format to match api_url requirements
     #print(today)
@@ -22,12 +23,17 @@ def fetch_total_debt():
             data = response.json()["data"]
             message = ""
             
-            for record in data:
-                record_date = record["record_date"]
-                total_debt = float(record["tot_pub_debt_out_amt"])
-                message += f"Date : {record_date}, \nTotal Debt: ${total_debt:,.2f}\n\n"
+            for i,  record in enumerate(data):
+                if i < len(text_boxes):
+                    record_date = record["record_date"]
+                    total_debt = float(record["tot_pub_debt_out_amt"])
+                    text_boxes[i].delete(1.0,"end")
+                    text_boxes[i].insert("1.0",f"Date: {record_date}\nTotal Debt: ${total_debt:,.2f}")
+
+
+
                 
-            messagebox.showinfo("Debt Data", message)
+            #messagebox.showinfo("Debt Data", "Data Pulled from API") #probablyl don't need this
         else:
             messagebox.showerror("error", f"Failed to get data Code: {response.status_code}")
     except Exception as e:
@@ -36,10 +42,16 @@ def fetch_total_debt():
  
 root = Tk()
 root.title("debt app")
-root.geometry("400x400")
- 
+root.geometry("600x150")
+
+text_boxes = []
+for i in range(3):
+        text_box = Text(root, width=40, height=2)
+        text_box.grid(row=i, column=0)
+        text_boxes.append(text_box)
+
 get_data_button = Button(root, text="Get Data", command=fetch_total_debt)
-get_data_button.pack(side="bottom", pady=20)
+get_data_button.grid(column=1,row=3,pady=10)
  
 root.mainloop()
         

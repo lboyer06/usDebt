@@ -1,0 +1,6 @@
+# Example content for a Python project
+venv/
+.venv/
+pyvenv.cfg
+__pycache__/
+*.pyc

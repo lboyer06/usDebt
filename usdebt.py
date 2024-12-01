@@ -28,7 +28,9 @@ def fetch_total_debt():
                     record_date = record["record_date"]
                     total_debt = float(record["tot_pub_debt_out_amt"])
                     text_boxes[i].delete(1.0,"end")
-                    text_boxes[i].insert("1.0",f"Date: {record_date}\nTotal Debt: ${total_debt:,.2f}")
+                    text_boxes[i].insert("1.0",f"{record_date}")
+                    debt_boxes[i].delete(1.0,"end")
+                    debt_boxes[i].insert("1.0",f"${total_debt:,.2f}")
 
 
 
@@ -44,11 +46,35 @@ root = Tk()
 root.title("debt app")
 root.geometry("600x150")
 
+dateLabel = []
+for i in range(3):
+        label1 = Label(text="Date")
+        label1.grid(row=i,column=0)
+        dateLabel.append(label1)
+
+debtLabel = []
+for i in range(3):
+        label1 = Label(text="Debt:")
+        label1.grid(row=i,column=2)
+        debtLabel.append(label1)
+
+
+
+
 text_boxes = []
 for i in range(3):
-        text_box = Text(root, width=40, height=2)
-        text_box.grid(row=i, column=0)
+        text_box = Text(root, width=12, height=1)
+        text_box.grid(row=i , column=1)
         text_boxes.append(text_box)
+
+get_data_button = Button(root, text="Get Data", command=fetch_total_debt)
+get_data_button.grid(column=1,row=3,pady=10)
+
+debt_boxes = []
+for i in range(3):
+        text_box = Text(root, width=23, height=1)
+        text_box.grid(row=i , column=3)
+        debt_boxes.append(text_box)
 
 get_data_button = Button(root, text="Get Data", command=fetch_total_debt)
 get_data_button.grid(column=1,row=3,pady=10)

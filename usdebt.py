@@ -5,6 +5,9 @@ from datetime import date, timedelta
 from tkinter import Tk, Button, messagebox, Label,Text,Menu
 from tkcalendar import DateEntry
 
+#def fetch_total_debt_date_range()
+
+
 
 def fetch_total_debt():
 
@@ -73,25 +76,26 @@ for i in range(3):
         text_box.grid(row=i , column=3)
         debt_boxes.append(text_box)
 
-date_label = Label(text="Date Range: ", width=10,height=1)
-date_label.grid(row=1,column=4)
-
 
 #Manual Date Entry
+date_label = Label(text="Date Range: ", width=10,height=1)
+date_label.grid(row=0,column=4)
+
 date_boxes = []
 for i in range(2):
         date_box = DateEntry(root, width=12, height=1)
-        date_box.grid(row=1,column=5+ i)
+        date_box.grid(row=0,column=5+ i)
         date_boxes.append(date_box)
 
 
 
 
 
-get_data_button = Button(root, text="Get Data", command=fetch_total_debt)
+get_data_button = Button(root, text="Get Last 3 Days", command=fetch_total_debt)
 get_data_button.grid(column=1,row=3,pady=10)
 
-
+get_date_button = Button(root, text="Get Date Range", command=lambda: exit())
+get_date_button.grid(column=5,row=3,pady=10)
  
 root.mainloop()
         
